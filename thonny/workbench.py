@@ -142,7 +142,7 @@ class Workbench(tk.Tk):
         self._image_mapping_by_theme = (
             {}
         )  # type: Dict[str, Dict[str, str]] # theme-based alternative images
-        self._current_theme_name = "clam"  # will be overwritten later
+        self._current_theme_name = "Modern Light"  # will be overwritten later
         self._backends = {}  # type: Dict[str, BackendSpec]
         self._commands = []  # type: List[Dict[str, Any]]
         self._registered_commands = []  # type: List[Dict[str, Any]]
@@ -1441,6 +1441,8 @@ class Workbench(tk.Tk):
 
     def get_default_ui_theme(self) -> str:
         available_themes = self.get_usable_ui_theme_names()
+        if "Modern Light" in available_themes:
+            return "Modern Light"
         if "Windows" in available_themes:
             return "Windows"
         elif running_on_rpi() and "Raspberry Pi" in available_themes:
@@ -1452,6 +1454,8 @@ class Workbench(tk.Tk):
 
     def get_default_dark_ui_theme(self) -> str:
         available_themes = list(self.get_usable_ui_theme_names())
+        if "Modern Dark" in available_themes:
+            return "Modern Dark"
         if "Clean Dark" in available_themes:
             return "Clean Dark"
 

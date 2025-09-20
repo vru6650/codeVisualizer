@@ -616,6 +616,488 @@ def enhanced_aqua() -> CompoundUiThemeSettings:
     ]
 
 
+def modern_light() -> CompoundUiThemeSettings:
+    accent = "#2563EB"
+    accent_hover = "#1D4ED8"
+    accent_pressed = "#1E40AF"
+    surface = "#F5F6FA"
+    surface_alt = "#E5E7EB"
+    canvas = "#FFFFFF"
+    border = "#D0D5DD"
+    focus_border = "#A4C0F5"
+    text_primary = "#111827"
+    text_secondary = "#475467"
+    muted = "#9AA4B2"
+    tooltip_background = "#1F2937"
+    tooltip_foreground = "#F8FAFC"
+
+    return [
+        {
+            ".": {
+                "configure": {
+                    "background": surface,
+                    "foreground": text_primary,
+                    "bordercolor": border,
+                    "darkcolor": surface,
+                    "lightcolor": surface,
+                    "troughcolor": surface_alt,
+                    "selectbackground": accent,
+                    "selectforeground": "#FFFFFF",
+                    "font": "TkDefaultFont",
+                },
+                "map": {
+                    "background": [("disabled", surface), ("active", surface_alt)],
+                    "foreground": [("disabled", muted)],
+                    "selectbackground": [("!focus", accent_hover)],
+                    "selectforeground": [("!focus", "#FFFFFF")],
+                },
+            },
+            "TFrame": {"configure": {"background": surface}},
+            "TLabel": {"configure": {"background": surface, "foreground": text_primary}},
+            "Secondary.TLabel": {"configure": {"foreground": text_secondary}},
+            "Url.TLabel": {"configure": {"foreground": accent}},
+            "Tip.TLabel": {
+                "configure": {"foreground": tooltip_foreground, "background": tooltip_background}
+            },
+            "Tip.TFrame": {"configure": {"background": tooltip_background}},
+            "TSeparator": {
+                "configure": {"background": border, "borderwidth": 0, "relief": "flat"}
+            },
+            "TButton": {
+                "configure": {
+                    "background": accent,
+                    "foreground": "#FFFFFF",
+                    "bordercolor": accent,
+                    "lightcolor": accent,
+                    "darkcolor": accent,
+                    "padding": [scale(8), scale(4)],
+                    "relief": "flat",
+                },
+                "map": {
+                    "background": [
+                        ("disabled", surface_alt),
+                        ("pressed", accent_pressed),
+                        ("active", accent_hover),
+                    ],
+                    "bordercolor": [("focus", focus_border)],
+                    "foreground": [("disabled", "#FFFFFF")],
+                },
+            },
+            "Toolbutton": {
+                "configure": {
+                    "background": surface,
+                    "foreground": text_secondary,
+                    "padding": [scale(6), scale(4)],
+                    "relief": "flat",
+                },
+                "map": {
+                    "background": [
+                        ("disabled", surface),
+                        ("pressed", accent_pressed),
+                        ("active", surface_alt),
+                        ("selected", accent),
+                    ],
+                    "foreground": [
+                        ("disabled", muted),
+                        ("pressed", "#FFFFFF"),
+                        ("selected", "#FFFFFF"),
+                    ],
+                },
+            },
+            "TMenubutton": {
+                "configure": {
+                    "background": canvas,
+                    "foreground": text_secondary,
+                    "bordercolor": border,
+                    "lightcolor": border,
+                    "darkcolor": border,
+                    "padding": [scale(8), scale(4)],
+                    "relief": "flat",
+                },
+                "map": {
+                    "background": [
+                        ("disabled", canvas),
+                        ("pressed", accent_pressed),
+                        ("active", surface_alt),
+                    ],
+                    "foreground": [
+                        ("disabled", muted),
+                        ("pressed", "#FFFFFF"),
+                        ("active", text_primary),
+                    ],
+                    "bordercolor": [("focus", accent)],
+                },
+            },
+            "TCheckbutton": {
+                "configure": {
+                    "foreground": text_secondary,
+                    "indicatorbackground": canvas,
+                    "indicatorforeground": accent,
+                    "padding": [scale(4), scale(2)],
+                },
+                "map": {
+                    "foreground": [("disabled", muted), ("selected", text_primary)],
+                    "indicatorbackground": [
+                        ("disabled", surface_alt),
+                        ("selected", accent),
+                    ],
+                    "indicatorforeground": [
+                        ("disabled", muted),
+                        ("selected", "#FFFFFF"),
+                    ],
+                },
+            },
+            "TRadiobutton": {
+                "configure": {
+                    "foreground": text_secondary,
+                    "indicatorbackground": canvas,
+                    "indicatorforeground": accent,
+                    "padding": [scale(4), scale(2)],
+                },
+                "map": {
+                    "foreground": [("disabled", muted), ("selected", text_primary)],
+                    "indicatorbackground": [
+                        ("disabled", surface_alt),
+                        ("selected", accent),
+                    ],
+                    "indicatorforeground": [
+                        ("disabled", muted),
+                        ("selected", "#FFFFFF"),
+                    ],
+                },
+            },
+            "TEntry": {
+                "configure": {
+                    "fieldbackground": canvas,
+                    "foreground": text_primary,
+                    "insertcolor": accent,
+                    "lightcolor": border,
+                    "darkcolor": border,
+                    "bordercolor": border,
+                    "padding": [scale(4), scale(4)],
+                },
+                "map": {
+                    "fieldbackground": [("readonly", canvas)],
+                    "bordercolor": [("focus", accent)],
+                    "lightcolor": [("focus", accent)],
+                    "darkcolor": [("focus", accent)],
+                    "foreground": [("disabled", muted)],
+                },
+            },
+            "TCombobox": {
+                "configure": {
+                    "background": canvas,
+                    "fieldbackground": canvas,
+                    "foreground": text_primary,
+                    "selectbackground": canvas,
+                    "selectforeground": text_primary,
+                    "bordercolor": border,
+                    "lightcolor": border,
+                    "darkcolor": border,
+                    "arrowcolor": text_secondary,
+                    "padding": [scale(4), scale(2), scale(4), scale(2)],
+                },
+                "map": {
+                    "background": [("active", canvas)],
+                    "fieldbackground": [("readonly", canvas)],
+                    "selectbackground": [("readonly", canvas)],
+                    "selectforeground": [("readonly", text_primary)],
+                    "foreground": [("disabled", muted)],
+                    "arrowcolor": [("disabled", muted)],
+                    "bordercolor": [("focus", accent)],
+                },
+            },
+            "ComboboxPopdownFrame": {
+                "configure": {
+                    "borderwidth": scale(1),
+                    "relief": "solid",
+                    "background": canvas,
+                    "bordercolor": border,
+                }
+            },
+            "TSpinbox": {
+                "configure": {
+                    "background": canvas,
+                    "fieldbackground": canvas,
+                    "foreground": text_primary,
+                    "arrowsize": scale(12),
+                    "bordercolor": border,
+                },
+                "map": {
+                    "fieldbackground": [("readonly", canvas)],
+                    "foreground": [("disabled", muted)],
+                    "arrowcolor": [("disabled", muted)],
+                    "bordercolor": [("focus", accent)],
+                },
+            },
+            "TNotebook": {
+                "configure": {
+                    "background": surface,
+                    "bordercolor": border,
+                    "tabmargins": [scale(4), scale(2), scale(4), 0],
+                }
+            },
+            "AutomaticNotebook.TNotebook": {
+                "configure": {"background": surface, "bordercolor": border}
+            },
+            "ButtonNotebook.TNotebook": {
+                "configure": {"background": surface, "bordercolor": border}
+            },
+            "TNotebook.Tab": {
+                "configure": {
+                    "padding": [scale(10), scale(6)],
+                    "background": surface,
+                    "foreground": text_secondary,
+                    "borderwidth": scale(1),
+                    "bordercolor": surface,
+                    "lightcolor": surface,
+                    "darkcolor": surface,
+                },
+                "map": {
+                    "background": [
+                        ("selected", canvas),
+                        ("!selected", surface),
+                        ("disabled", surface),
+                    ],
+                    "foreground": [
+                        ("selected", text_primary),
+                        ("disabled", muted),
+                    ],
+                    "bordercolor": [
+                        ("selected", accent),
+                        ("focus", accent),
+                        ("!selected", surface),
+                    ],
+                    "lightcolor": [
+                        ("selected", accent),
+                        ("!selected", surface),
+                    ],
+                    "darkcolor": [
+                        ("selected", accent),
+                        ("!selected", surface),
+                    ],
+                },
+            },
+            "ButtonNotebook.TNotebook.Tab": {
+                "configure": {"padding": [scale(10), scale(4)]}
+            },
+            "Treeview": {
+                "configure": {
+                    "background": canvas,
+                    "foreground": text_primary,
+                    "fieldbackground": canvas,
+                    "borderwidth": 0,
+                    "relief": "flat",
+                },
+                "map": {
+                    "background": [
+                        ("selected", "focus", accent),
+                        ("selected", "!focus", accent_hover),
+                    ],
+                    "foreground": [
+                        ("selected", "#FFFFFF"),
+                        ("disabled", muted),
+                    ],
+                },
+            },
+            "Treeview.Heading": {
+                "configure": {
+                    "background": surface,
+                    "foreground": text_secondary,
+                    "borderwidth": scale(1),
+                    "bordercolor": border,
+                    "lightcolor": surface,
+                    "darkcolor": surface,
+                    "padding": [scale(6), scale(3)],
+                    "relief": "flat",
+                },
+                "map": {
+                    "background": [
+                        ("active", surface_alt),
+                        ("pressed", accent_pressed),
+                    ],
+                    "foreground": [
+                        ("active", text_primary),
+                        ("pressed", "#FFFFFF"),
+                    ],
+                },
+            },
+            "TScrollbar": {
+                "configure": {
+                    "gripcount": 0,
+                    "borderwidth": 0,
+                    "relief": "flat",
+                    "background": border,
+                    "darkcolor": border,
+                    "lightcolor": border,
+                    "troughcolor": surface_alt,
+                },
+                "map": {
+                    "background": [
+                        ("disabled", border),
+                        ("active", accent),
+                        ("pressed", accent_pressed),
+                    ],
+                    "troughcolor": [("disabled", surface)],
+                },
+            },
+            "Vertical.TScrollbar": {
+                "layout": [
+                    (
+                        "Vertical.Scrollbar.trough",
+                        {
+                            "sticky": "ns",
+                            "children": [
+                                ("Vertical.Scrollbar.thumb", {"expand": "1", "sticky": "nswe"})
+                            ],
+                        },
+                    )
+                ]
+            },
+            "Horizontal.TScrollbar": {
+                "layout": [
+                    (
+                        "Horizontal.Scrollbar.trough",
+                        {
+                            "sticky": "we",
+                            "children": [
+                                ("Horizontal.Scrollbar.thumb", {"expand": "1", "sticky": "nswe"})
+                            ],
+                        },
+                    )
+                ],
+                "map": {
+                    "background": [
+                        ("disabled", border),
+                        ("active", accent),
+                        ("pressed", accent_pressed),
+                    ],
+                    "troughcolor": [("disabled", surface)],
+                },
+            },
+            "Menubar": {
+                "configure": {
+                    "custom": 1 if running_on_windows() else 0,
+                    "background": surface,
+                    "foreground": text_secondary,
+                    "activebackground": accent,
+                    "activeforeground": "#FFFFFF",
+                    "relief": "flat",
+                }
+            },
+            "Menu": {
+                "configure": {
+                    "background": canvas,
+                    "foreground": text_primary,
+                    "selectcolor": accent,
+                    "activebackground": accent,
+                    "activeforeground": "#FFFFFF",
+                    "borderwidth": 0,
+                    "relief": "flat",
+                }
+            },
+            "CustomMenubarLabel.TLabel": {
+                "configure": {
+                    "background": surface,
+                    "foreground": text_secondary,
+                    "padding": [scale(10), scale(4), 0, scale(10)],
+                }
+            },
+            "Text": {
+                "configure": {
+                    "background": canvas,
+                    "foreground": text_primary,
+                    "insertbackground": accent,
+                }
+            },
+            "Gutter": {
+                "configure": {"background": surface_alt, "foreground": muted}
+            },
+            "Listbox": {
+                "configure": {
+                    "background": canvas,
+                    "foreground": text_primary,
+                    "selectbackground": accent,
+                    "selectforeground": "#FFFFFF",
+                    "disabledforeground": muted,
+                    "highlightbackground": border,
+                    "highlightcolor": accent,
+                    "highlightthickness": scale(1),
+                }
+            },
+            "ViewBody.TFrame": {"configure": {"background": canvas}},
+            "ViewToolbar.TFrame": {"configure": {"background": surface}},
+            "ViewToolbar.Toolbutton": {
+                "configure": {
+                    "background": surface,
+                    "foreground": text_secondary,
+                    "padding": [scale(6), scale(4)],
+                    "relief": "flat",
+                },
+                "map": {
+                    "background": [
+                        ("disabled", surface),
+                        ("active", surface_alt),
+                        ("pressed", accent_pressed),
+                        ("selected", accent),
+                    ],
+                    "foreground": [
+                        ("disabled", muted),
+                        ("pressed", "#FFFFFF"),
+                        ("selected", "#FFFFFF"),
+                    ],
+                },
+            },
+            "ViewToolbar.TLabel": {
+                "configure": {"background": surface, "foreground": text_secondary}
+            },
+            "ViewTab.TLabel": {
+                "configure": {
+                    "background": surface,
+                    "foreground": text_secondary,
+                    "padding": [scale(8), scale(2)],
+                },
+                "map": {"background": [("hover", surface_alt)]},
+            },
+            "Active.ViewTab.TLabel": {
+                "configure": {"background": canvas, "foreground": text_primary}
+            },
+            "Inactive.ViewTab.TLabel": {
+                "configure": {"foreground": text_secondary}
+            },
+            "TProgressbar": {
+                "configure": {
+                    "background": accent,
+                    "troughcolor": surface_alt,
+                    "bordercolor": surface,
+                }
+            },
+            "TScale": {
+                "configure": {
+                    "background": accent,
+                    "troughcolor": surface_alt,
+                    "borderwidth": 0,
+                    "lightcolor": accent,
+                    "darkcolor": accent,
+                    "gripcount": 0,
+                }
+            },
+            "Sash": {
+                "configure": {
+                    "background": border,
+                    "borderwidth": 0,
+                    "sashthickness": ems_to_pixels(0.5),
+                    "gripcount": 0,
+                }
+            },
+        },
+        _paned_window_settings(),
+        _menu_settings(),
+        _link_settings(),
+        _button_notebook_settings(),
+    ]
+
+
 def load_plugin() -> None:
     from tkinter import ttk
 
