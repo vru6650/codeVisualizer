@@ -212,6 +212,7 @@ class ThemeAndFontConfigurationPage(ConfigurationPage):
         get_workbench().set_option("view.io_font_size", int(self._io_size_variable.get()))
         get_workbench().set_option("view.io_font_family", self._io_family_variable.get())
         get_workbench().reload_themes()
+        get_workbench().remember_current_ui_theme_preference()
         get_workbench().update_fonts()
 
     def _insert_shell_text(self):
