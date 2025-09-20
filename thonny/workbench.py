@@ -145,6 +145,7 @@ class Workbench(tk.Tk):
         self._current_theme_name = "clam"  # will be overwritten later
         self._backends = {}  # type: Dict[str, BackendSpec]
         self._commands = []  # type: List[Dict[str, Any]]
+        self._registered_commands = []  # type: List[Dict[str, Any]]
         self._toolbar_buttons = {}
         self._view_records = {}  # type: Dict[str, Dict[str, Any]]
         self.content_inspector_classes = []  # type: List[Type]
@@ -1172,6 +1173,29 @@ class Workbench(tk.Tk):
             )
             if command_id == "view.toggle_dark_mode":
                 self._update_dark_mode_command_ui()
+
+        self._remember_registered_command(
+            dict(
+                command_id=command_id,
+                label=command_label,
+                menu_name=menu_name,
+                accelerator=accelerator,
+                tester=tester,
+                handler=handler,
+                dispatcher=dispatch if handler else None,
+            )
+        )
+
+    def _remember_registered_command(self, record: Dict[str, Any]) -> None:
+        for i, existing in enumerate(self._registered_commands):
+            if existing.get("command_id") == record.get("command_id"):
+                self._registered_commands[i] = record
+                break
+        else:
+            self._registered_commands.append(record)
+
+    def get_registered_commands(self) -> Sequence[Dict[str, Any]]:
+        return [dict(command) for command in self._registered_commands]
 
     def add_view(
         self,
