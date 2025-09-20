@@ -2,6 +2,13 @@
 Version history
 ===============
 
+Unreleased
+==========
+
+* Introduce Modern Light UI theme and make it the default alongside a complementary Modern Dark variant.
+
+===============
+
 4.1.7 (2024-12-16)
 ==================
 * Fix PyPI package search, #3401

@@ -4,6 +4,7 @@ from thonny import get_workbench
 from thonny.misc_utils import running_on_windows
 from thonny.ui_utils import scale
 from thonny.workbench import UiThemeSettings
+from .base_ui_themes import modern_light
 
 
 def clean(
@@ -303,6 +304,34 @@ def clean(
 
 def load_plugin() -> None:
     dark_images = {"tab-close-active": "tab-close-active-clam-dark"}
+
+    modern_light_images = {
+        "tab-close": "tab-close",
+        "tab-close-active": "tab-close-active",
+    }
+
+    get_workbench().add_ui_theme(
+        "Modern Light",
+        "clam",
+        modern_light,
+        modern_light_images,
+    )
+
+    get_workbench().add_ui_theme(
+        "Modern Dark",
+        "clam",
+        clean(
+            frame_background="#111827",
+            text_background="#0F172A",
+            normal_detail="#1F2937",
+            high_detail="#1D4ED8",
+            low_detail="#0B1623",
+            normal_foreground="#E2E8F0",
+            high_foreground="#F8FAFC",
+            low_foreground="#64748B",
+        ),
+        dark_images,
+    )
 
     get_workbench().add_ui_theme(
         "Clean Dark",
