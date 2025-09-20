@@ -157,6 +157,8 @@ class Workbench(tk.Tk):
         self._init_scaling()
 
         self._init_theming()
+        self.set_default("view.preferred_light_ui_theme", self.get_option("view.ui_theme"))
+        self.set_default("view.preferred_dark_ui_theme", self.get_default_dark_ui_theme())
         self._init_window()
         self.option_add("*Dialog.msg.wrapLength", "8i")
 
@@ -653,6 +655,20 @@ class Workbench(tk.Tk):
             self._cmd_focus_shell,
             default_sequence=select_sequence("<Alt-s>", "<Command-Alt-s>"),
             group=70,
+        )
+
+        self.add_command(
+            "view.toggle_dark_mode",
+            "view",
+            tr("Toggle dark mode"),
+            lambda: self._switch_darkness("toggle"),
+            default_sequence=select_sequence(
+                "<Control-Shift-d>", "<Command-Shift-d>", "<Control-Shift-d>"
+            ),
+            group=65,
+            include_in_toolbar=True,
+            caption=tr("Dark"),
+            alternative_caption=tr("Light"),
         )
 
         if self.get_ui_mode() == "expert":
@@ -1154,6 +1170,8 @@ class Workbench(tk.Tk):
                 tester,
                 toolbar_group,
             )
+            if command_id == "view.toggle_dark_mode":
+                self._update_dark_mode_command_ui()
 
     def add_view(
         self,
@@ -1351,6 +1369,7 @@ class Workbench(tk.Tk):
                 menu.configure(get_style_configuration("Menu"))
 
         self.update_fonts()
+        self.remember_current_ui_theme_preference()
 
     def _apply_syntax_theme(self, name: str) -> None:
         def get_settings(name):
@@ -1407,11 +1426,56 @@ class Workbench(tk.Tk):
         else:
             return "clam"
 
+    def get_default_dark_ui_theme(self) -> str:
+        available_themes = list(self.get_usable_ui_theme_names())
+        if "Clean Dark" in available_themes:
+            return "Clean Dark"
+
+        for name in available_themes:
+            if "dark" in name.lower():
+                return name
+
+        if available_themes:
+            return available_themes[0]
+
+        return "Clean Dark"
+
     def get_default_syntax_theme(self) -> str:
         if self.uses_dark_ui_theme():
             return "Default Dark"
         else:
             return "Default Light"
+
+    def remember_current_ui_theme_preference(self) -> None:
+        theme_name = self.get_option("view.ui_theme")
+        if self.uses_dark_ui_theme():
+            self.set_option("view.preferred_dark_ui_theme", theme_name)
+        else:
+            self.set_option("view.preferred_light_ui_theme", theme_name)
+
+        self._update_dark_mode_command_ui()
+
+    def _update_dark_mode_command_ui(self) -> None:
+        if not hasattr(self, "_toolbar_buttons"):
+            return
+
+        button = self._toolbar_buttons.get("view.toggle_dark_mode")
+        if not button:
+            return
+
+        if self.uses_dark_ui_theme():
+            caption = tr("Light")
+            tooltip = tr("Switch to light theme")
+        else:
+            caption = tr("Dark")
+            tooltip = tr("Switch to dark theme")
+
+        button.configure(text=caption)
+
+        if self.get_ui_mode() != "simple":
+            button.unbind("<Enter>")
+            button.unbind("<Leave>")
+            create_tooltip(button, tooltip)
 
     def uses_dark_ui_theme(self) -> bool:
         name = self._style.theme_use()
@@ -1510,7 +1574,62 @@ class Workbench(tk.Tk):
         pass
 
     def _switch_darkness(self, mode):
-        pass
+        if mode not in {"light", "dark", "toggle"}:
+            raise ValueError("Unsupported dark mode command: %r" % (mode,))
+
+        if mode == "toggle":
+            target_mode = "dark" if not self.uses_dark_ui_theme() else "light"
+        else:
+            target_mode = mode
+
+        available = list(self.get_usable_ui_theme_names())
+        known_themes = set(available) | set(self._style.theme_names())
+        current_theme = self.get_option("view.ui_theme")
+
+        def is_known(theme_name: Optional[str]) -> bool:
+            return bool(theme_name) and theme_name in known_themes
+
+        def choose_theme(option_name: str, fallback_candidates, filter_func=None) -> str:
+            preferred = self.get_option(option_name)
+            if is_known(preferred):
+                return preferred
+
+            for candidate in fallback_candidates:
+                if is_known(candidate):
+                    self.set_option(option_name, candidate)
+                    return candidate
+
+            if filter_func:
+                for candidate in available:
+                    if filter_func(candidate):
+                        self.set_option(option_name, candidate)
+                        return candidate
+
+            if is_known(current_theme):
+                return current_theme
+
+            default_theme = self.get_default_ui_theme()
+            if is_known(default_theme):
+                self.set_option(option_name, default_theme)
+            return default_theme
+
+        if target_mode == "dark":
+            target_theme = choose_theme(
+                "view.preferred_dark_ui_theme",
+                [self.get_default_dark_ui_theme()],
+                lambda name: "dark" in name.lower(),
+            )
+        else:
+            target_theme = choose_theme(
+                "view.preferred_light_ui_theme",
+                [self.get_default_ui_theme()],
+                lambda name: "dark" not in name.lower(),
+            )
+
+        if self.get_option("view.ui_theme") != target_theme:
+            self.set_option("view.ui_theme", target_theme)
+
+        self.reload_themes()
 
     def _switch_to_regular_mode(self):
         pass
